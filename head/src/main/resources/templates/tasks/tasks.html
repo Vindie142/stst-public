@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title>Задачи</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+      <br>
+
+      <div class="task regularBorder regularBlur">
+        <form class="" style="padding: 0;" action="/tasks/new-task" method="post">
+          <input name="back" value="/tasks" hidden>
+          <textarea class="newTask formBase regularBorder border-bottomH" style="" type="text" align="left" placeholder="Задача" name="text" rows="3" required="required"></textarea>
+          <div class="" style="">
+            <input class="formBase" style="margin: 0; padding: 10px; margin: auto 10px; width: calc(100% - 40px);" list="objects" name="object" onchange="resetIfInvalid(this);" placeholder="Привязка к объекту">
+            <datalist id="objects">
+                <option class="formBase" th:each="object : ${objects}" th:value="${object.getNormName()}"></option>
+    				</datalist>
+            <input class="formBase" style="margin: 0; padding: 10px; margin: auto 10px; width: 140px;" list="employees" name="employeeTo" onchange="resetIfInvalid(this);" placeholder="Кому">
+            <datalist id="employees">
+                <option class="formBase" th:each="employee : ${employees}" th:value="${employee.getId() + ': ' +employee.getNormName()}"></option>
+    				</datalist>
+            <input class="formBase formButton" style="margin: 10px;" type="submit" value="Создать"></input>
+          </div>
+        </form>
+      </div>
+
+
+      <div class="task regularBorder" th:each="task : ${tasks}">
+        <h3 class="headerOfDiv headerBlur" style="padding: 10px; width: calc(100% - 20px);"><a th:if="${task.getObject() != null}" th:href="@{/objects/object/} + ${task.getObject().getId()}" th:text="${task.getObject().getNormName()}"></a></h3>
+        <div class="bodyOfDiv regularBlur" style="">
+          <a style="text-decoration: none;" th:href="${task.getSender() != null ? '' : '/tasks/edit/' + task.getId() + '?back=%2Ftasks'}"> <p style="padding: 10px; padding-top:0; padding-bottom:0; margin-top:0; margin-bottom:0;" align="left" th:text="${task.getText()}"></p> </a>
+          <div class="border-top" style="display: flex; justify-content: flex-end;">
+            <form class="" style="padding: 0;" th:if="${task.getSender() != null}" th:action="@{/tasks/message/} + ${task.getId()}" method="get">
+              <input type="text" name="back" value="/tasks" hidden>
+              <input class="textTask" type="submit"  th:value="${task.getSender().getNormName()}">
+            </form>
+
+            <form class="border-left" style="padding: 0;" th:if="${task.getSender() == null}" th:action="@{/tasks/transfer/} + ${task.getId()}" method="get">
+              <input type="text" name="back" value="/tasks" hidden>
+              <input type="submit" class="buttonTask" id="arrow" value=" ">
+            </form>
+            <form class="border-left" style="padding: 0;" th:action="@{/tasks/done/} + ${task.getId()}" method="post">
+              <input type="text" name="back" value="/tasks" hidden>
+              <input type="submit" class="buttonTask" id="checkMark" value=" ">
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+
+
+      <br>
+    </div>
+    <script>
+      function resetIfInvalid(el){
+         //just for beeing sure that nothing is done if no value selected
+         if (el.value == "")
+             return;
+         var options = el.list.options;
+         for (var i = 0; i< options.length; i++) {
+             if (el.value == options[i].value)
+                 //option matches: work is done
+                 return;
+         }
+         //no match was found: reset the value
+         el.value = "";
+      }
+    </script>
+  </body>
+</html>

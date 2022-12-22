@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title>Заявки</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+
+      <a class="topButton hov" th:href="@{/snab-requests/new-snab-request(back=${back2})}"><div class="topDivForButton headerBlur regularBorder" align="center">Создать заявку</div></a>
+
+
+        <div th:insert="blocks/snabRequest :: ${snabRequest}"></div>
+
+
+          <br>
+    </div>
+  </body>
+</html>

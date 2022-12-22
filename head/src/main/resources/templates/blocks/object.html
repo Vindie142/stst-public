@@ -1,0 +1,30 @@
+<div th:fragment="object">
+
+
+	<a class="hov" style="text-decoration: none;" th:each="object : ${objects}" th:href="@{/objects/object/} + ${object.getId()}">
+	<div class="oMaindiv regularBorder">
+			<div class="div1-3" id="div1-3--1" style="">
+				<div class="headerBlur" id="streetInO" style="height: 50%; display: flex; align-items: center;">
+					<p style="margin: 0; width: 100%;" th:text="${object.getStreet() + ' ' + object.getBuilding()}"></p>
+				</div>
+				<div class="regularBlur" id="statusInO" style="height: calc(50% - 2px); display: flex; align-items: center;">
+					<h2 style="width: 20%; margin: 0;" th:text="${object.getCurrStatus()}"></h2>
+					<p style="margin: 0; width: 80%;" th:text="${object.getCity().getName() + ' [' + object.getId() + ']'}"></p>
+				</div>
+			</div>
+
+			<div class="div1-3 regularBlur" id="div1-3--2">
+				<div align="left" style="padding: 10px;">
+					<p th:text="${'ПТО: ' + (object.getPto() == null ? ' ' : object.getPto().getNormName())}"></p>
+					<p th:text="${'Маст: ' + (object.getMaster() == null ? ' ' : object.getMaster().getNormName())}"></p>
+				</div>
+			</div>
+
+			<div class="div1-3 regularBlur" style="padding: 10px;"   id="div1-3--3" align="left">
+				<p th:if="${object.getActions() != null && object.getActions().size() > 0}" th:text="${object.getCurrAction()}"></p>
+			</div>
+	</div>
+	</a>
+
+
+</div>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title th:text="${'[' + snabRequest.getId() + '] заявка на ' + snabRequest.getObject().getNormName()}"></title>
+    <link href="/stylesPrint.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <button><div class="page" align="center">
+      <div id="space" align="center">
+      </div>
+
+          <h3 class="headerOfDiv headerBlur" style="padding: 0px; width: calc(100% - 20px);"><p style="display: inline-block;" th:text="${'[' + snabRequest.getId() + '] заявка на'}"></p><a style="display: inline-block;" href="#" th:text="${snabRequest.getObject().getNormName()}"></a></h3>
+
+          <div class="bodyOfDiv regularBlur" style="">
+            <div class="oMaindiv" style="">
+              <div class="snabrequests1-3" id="snabrequests1-3--1" style="">
+                <a class="" style="text-decoration: none; padding: 0px; margin: 0px;" href="#">
+                <div align="left" style="padding-left: 10px;">
+                  <p th:text="${'К: ' + (snabRequest.getDateTo() == null ? ' ' : snabRequest.getNormalDateTo())}"></p>
+                  <p th:text="${'ПТО: ' + snabRequest.getObject().getPto().getNormName()}"></p>
+                  <p th:text="${'От: ' + (snabRequest.getDateFrom() == null ? ' ' :snabRequest.getNormalDateFrom())}"></p>
+                </div>
+                </a>
+              </div>
+
+              <div class="snabrequests1-3" id="snabrequests1-3--2">
+                <a class="" style="text-decoration: none; padding: 0px; margin: 0px;" href="#">
+                <div align="left" style="padding-left: 10px;">
+                  <p th:text="${'Сост: ' + snabRequest.getCompiler().getNormName()}"></p>
+                  <p th:style="${snabRequest.getChecker() != null && snabRequest.isChecked() ? 'background-color: rgba(60, 179, 113, 0.4);' : ''}" th:text="${'Пров: ' + (snabRequest.getChecker() == null ? ' ' : snabRequest.getChecker().getNormName()) + (snabRequest.isChecked() == true ? ' - ✔' : '')}"></p>
+                  <p th:style="${snabRequest.getApprover() != null && snabRequest.isApproved() ? 'background-color: rgba(60, 179, 113, 0.4);' : ''}" th:text="${'Утв:  ' + (snabRequest.getApprover() == null ? ' ' : snabRequest.getApprover().getNormName()) + (snabRequest.isApproved() == true ? ' - ✔' : '')}"></p>
+                </div>
+                </a>
+              </div>
+
+              <div class="snabrequests1-3" style="padding-left: 10px;" id="snabrequests1-3--3" align="center">
+
+              <div class="">
+                <p th:if="${snabRequest.isChecked() == false && snabRequest.getChecker() != null}">На проверке</p>
+                <p th:if="${snabRequest.isApproved() == false && snabRequest.isChecked() == true && snabRequest.getApprover() == null}">Проверена</p>
+                <p th:if="${snabRequest.isApproved() == false && snabRequest.isChecked() == true && snabRequest.getApprover() != null}">На утверждении</p>
+                <p th:if="${snabRequest.isAccepted() == false && snabRequest.isApproved() == true && snabRequest.getSnab() == null}">Утверждена</p>
+                <p th:if="${snabRequest.isAccepted() == false && snabRequest.isApproved() == true && snabRequest.getSnab() != null}">В снабжении</p>
+                <p th:if="${snabRequest.isDone() == false && snabRequest.isAccepted() == true}" th:text="${'Принята:  ' + (snabRequest.getSnab().getNormName())}"></p>
+                <p th:if="${snabRequest.isDone() == true}" th:text="${'Выполнена:  ' + (snabRequest.getSnab().getNormName())}"></p>
+                <form class="" style="padding: 0; margin: 0;" align="center" th:action="@{/snab-requests/snab-request/} + ${snabRequest.getId()} + @{/send}" method="post">
+              </div>
+
+              </div>
+            </div>
+            <div class="oDivBottom">
+              <a class="" style="text-decoration: none; padding: 0px; margin: 0px;" href="#}">
+                <p style="padding: 0px;" th:text="${snabRequest.getNote()}"></p>
+              </a>
+            </div>
+          </div>
+
+
+
+          <br>
+
+          <table>
+                <tr>
+                  <td id="th">Наименование</td>
+                  <td id="th">Ед. изм.</td>
+                  <td id="th">Кол-во</td>
+                  <td id="th">Пояснение</td>
+                </tr>
+
+                <tr th:each="snabPoint : ${snabRequest.getSnabPoints()}">
+                  <td style="width: 45%;" th:text="${snabPoint.getPriceMat().getName()}"></td>
+                  <td style="width: 10%;" th:text="${snabPoint.getPriceMat().getMeasurement().getName()}"></td>
+                  <td style="width: 10%;" th:text="${snabPoint.getAmount()}"></td>
+                  <td style="" th:text="${snabPoint.getNote()}"></td>
+                </tr>
+
+        </table>
+
+
+
+
+
+          <br>
+    </div></button>
+    <script type="text/javascript">
+      function addDiv(parent_div, content, attrs) {
+        var div = document.createElement('hr');
+        var parent = document.getElementById(parent_div);
+
+        for (var key in attrs) {
+          if (attrs.hasOwnProperty(key)) {
+            div.setAttribute(key, attrs[key]);
+          }
+        }
+        div.innerHTML = content;
+        if (parent) {
+          parent.appendChild(div);
+        }
+        }
+
+        var button = document.getElementsByTagName('button')[0];
+        if (button) {
+        button.addEventListener('click', function() {
+          // change dynamically your new div
+          addDiv('space', ' ', {
+            'class': 'someclass someclass',
+            'data-attr': 'attr'
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

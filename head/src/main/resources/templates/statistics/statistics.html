@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title>Статистика</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+      <br>
+      <form class="" style="padding: 0;" action="/statistics/objects" method="get">
+        <input type="text" name="back" value="/statistics" hidden>
+
+        <input class="topButton headerBlur formBase" style="width: 112px; display: inline-block; margin: 0;" list="statuses" name="status" onchange="resetIfInvalid(this);" placeholder="Статус">
+        <datalist id="statuses">
+            <option value="0"></option>
+            <option value="1"></option>
+            <option value="2"></option>
+            <option value="3"></option>
+            <option value="4"></option>
+            <option value="5"></option>
+            <option value="6"></option>
+            <option value="7"></option>
+            <option value="8"></option>
+            <option value="9"></option>
+        </datalist>
+
+        <input class="topButton headerBlur formBase" style="width: 230px; display: inline-block; margin: 0;" list="employees" name="employee" onchange="resetIfInvalid(this);" placeholder="Работник">
+        <datalist id="employees">
+            <option class="formBase" th:each="employee : ${employees}" th:value="${employee.getId() + ': ' + employee.getNormName()}"></option>
+        </datalist>
+
+        <select class="topButton headerBlur formBase" style="width: 230px; display: inline-block; margin: 0;" name="city">
+            <option class="formBase" value="">Все города</option>
+            <option class="formBase" th:each="city : ${cities}" th:value="${city.getKey()}" th:text="${city.getValue()}"></option>
+        </select>
+
+        <input class="formBase headerBlur topButton" style="width: 100px; display: inline-block;" type="submit" value="Поиск">
+      </form>
+
+    </div>
+  </body>
+</html>

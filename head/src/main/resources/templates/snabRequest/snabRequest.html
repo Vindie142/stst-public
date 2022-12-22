@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title th:text="${'[' + snabRequest.getId() + '] заявка на ' + snabRequest.getObject().getNormName()}"></title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+      <a class="" style="width: 100%;" target="_blank" th:href="@{/snab-requests/snab-request/} + ${snabRequest.getId()} + @{/print}"> <span class="print"></span> </a>
+
+      <br>
+          <h3 class="headerOfDiv headerBlur" style="padding: 10px; width: calc(100% - 20px);"><p style="display: inline-block;" th:text="${'[' + snabRequest.getId() + '] заявка на'}"></p><a style="display: inline-block;" th:href="@{/objects/object/} + ${snabRequest.getObject().getId()}" th:text="${snabRequest.getObject().getNormName()}"></a></h3>
+
+          <div class="bodyOfDiv regularBlur" style="">
+            <div class="oMaindiv" style="">
+              <div class="snabrequests1-3" id="snabrequests1-3--1" style="">
+                <a class="" style="text-decoration: none; padding: 0px; margin: 0px;" th:href="@{/snab-requests/snab-request/} + ${snabRequest.getId()} + @{/edit} + @{/(back2=${back2})}">
+                <div align="left" style="padding: 10px;">
+                  <p th:text="${'К: ' + (snabRequest.getDateTo() == null ? ' ' : snabRequest.getNormalDateTo())}"></p>
+                  <p th:text="${'ПТО: ' + snabRequest.getObject().getPto().getNormName()}"></p>
+                  <p th:text="${'От: ' + (snabRequest.getDateFrom() == null ? ' ' :snabRequest.getNormalDateFrom())}"></p>
+                </div>
+                </a>
+              </div>
+
+              <div class="snabrequests1-3" id="snabrequests1-3--2">
+                <a class="" style="text-decoration: none; padding: 0px; margin: 0px;" th:href="@{/snab-requests/snab-request/} + ${snabRequest.getId()} + @{/edit} + @{/(back=${back})}">
+                <div align="left" style="padding: 10px;">
+                  <p th:text="${'Сост: ' + snabRequest.getCompiler().getNormName()}"></p>
+                  <p th:style="${snabRequest.getChecker() != null && snabRequest.isChecked() ? 'background-color: rgba(60, 179, 113, 0.4);' : ''}" th:text="${'Пров: ' + (snabRequest.getChecker() == null ? ' ' : snabRequest.getChecker().getNormName())}"></p>
+                  <p th:style="${snabRequest.getApprover() != null && snabRequest.isApproved() ? 'background-color: rgba(60, 179, 113, 0.4);' : ''}" th:text="${'Утв:  ' + (snabRequest.getApprover() == null ? ' ' : snabRequest.getApprover().getNormName())}"></p>
+                </div>
+                </a>
+              </div>
+
+              <div class="snabrequests1-3" style="padding: 10px;" id="snabrequests1-3--3" align="center">
+
+              <div class="">
+                <p th:if="${snabRequest.isChecked() == false && snabRequest.getChecker() != null}">На проверке</p>
+                <p th:if="${snabRequest.isApproved() == false && snabRequest.isChecked() == true && snabRequest.getApprover() == null}">Проверена</p>
+                <p th:if="${snabRequest.isApproved() == false && snabRequest.isChecked() == true && snabRequest.getApprover() != null}">На утверждении</p>
+                <p th:if="${snabRequest.isAccepted() == false && snabRequest.isApproved() == true && snabRequest.getSnab() == null}">Утверждена</p>
+                <p th:if="${snabRequest.isAccepted() == false && snabRequest.isApproved() == true && snabRequest.getSnab() != null}">В снабжении</p>
+                <p th:if="${snabRequest.isDone() == false && snabRequest.isAccepted() == true}" th:text="${'Принята:  ' + (snabRequest.getSnab().getNormName())}"></p>
+                <p th:if="${snabRequest.isDone() == true}" th:text="${'Выполнена:  ' + (snabRequest.getSnab().getNormName())}"></p>
+                <form class="" style="padding: 0; margin: 0;" align="center" th:action="@{/snab-requests/snab-request/} + ${snabRequest.getId()} + @{/send}" method="post">
+                  <input type="text" name="back" th:value="@{/snab-requests/snab-request/} + ${snabRequest.getId()}" hidden>
+
+                  <input th:if="${cDepart.get().getAbbr() == 'mast' && snabRequest.isChecked() == false}" type="text" name="action" value="to_checker" hidden>
+                  <input th:if="${cDepart.get().getAbbr() == 'mast' && snabRequest.isChecked() == false}" class="formBase formButton" style="display: inline-block; margin: 5px;" type="submit" value="На проверку в ПТО">
+
+                  <input th:if="${cDepart.get().getAbbr() == 'pto' && snabRequest.isChecked() == false}" type="text" name="action" value="check" hidden>
+                  <input th:if="${cDepart.get().getAbbr() == 'pto' && snabRequest.isChecked() == false}" class="formBase formButton" style="display: inline-block; margin: 5px;" type="submit" value="Проверить">
+
+                  <input th:if="${cDepart.get().getAbbr() == 'pto' && snabRequest.isApproved() == false && snabRequest.isChecked() == true && snabRequest.getApprover() == null}" class="formBase" list="ptos" name="approver" onchange="resetIfInvalid(this);" placeholder="Утверждающий" required>
+                  <datalist th:if="${cDepart.get().getAbbr() == 'pto' && snabRequest.isApproved() == false && snabRequest.isChecked() == true && snabRequest.getApprover() == null}" id="ptos">
+                      <option class="formBase" th:each="pto : ${ptos}" th:value="${pto.getId() + ': ' + pto.getNormName()}"></option>
+                  </datalist>
+                  <input th:if="${cDepart.get().getAbbr() == 'pto' && snabRequest.isApproved() == false && snabRequest.isChecked() == true && snabRequest.getApprover() == null}" type="text" name="action" value="to_approver" hidden>
+                  <input th:if="${cDepart.get().getAbbr() == 'pto' && snabRequest.isApproved() == false && snabRequest.isChecked() == true && snabRequest.getApprover() == null}" class="formBase formButton" style="display: inline-block; margin: 5px;" type="submit" value="На утверждение">
+
+                  <input th:if="${(cDepart.get().getAbbr() == 'pto' || cDepart.get().getAbbr() == 'lead') && snabRequest.isApproved() == false && snabRequest.getApprover() != null}" type="text" name="action" value="approve" hidden>
+                  <input th:if="${(cDepart.get().getAbbr() == 'pto' || cDepart.get().getAbbr() == 'lead') && snabRequest.isApproved() == false && snabRequest.getApprover() != null}" class="formBase formButton" style="display: inline-block; margin: 5px;" type="submit" value="Утвердить">
+
+                  <input th:if="${(cDepart.get().getAbbr() == 'pto' || cDepart.get().getAbbr() == 'lead') && snabRequest.isAccepted() == false && snabRequest.isApproved() == true}" class="formBase" list="snabs" name="snab" onchange="resetIfInvalid(this);" placeholder="Снабженец" required>
+                  <datalist th:if="${(cDepart.get().getAbbr() == 'pto' || cDepart.get().getAbbr() == 'lead') && snabRequest.isAccepted() == false && snabRequest.isApproved() == true}" id="snabs">
+                      <option class="formBase" th:each="snab : ${snabs}" th:value="${snab.getId() + ': ' + snab.getNormName()}"></option>
+                  </datalist>
+                  <input th:if="${(cDepart.get().getAbbr() == 'pto' || cDepart.get().getAbbr() == 'lead') && snabRequest.isAccepted() == false && snabRequest.isApproved() == true}" type="text" name="action" value="to_snab" hidden>
+                  <input th:if="${(cDepart.get().getAbbr() == 'pto' || cDepart.get().getAbbr() == 'lead') && snabRequest.isAccepted() == false && snabRequest.isApproved() == true}" class="formBase formButton" style="display: inline-block; margin: 5px;" type="submit" value="В снабжение">
+
+                </form>
+              </div>
+                <form class="" style="padding: 0; margin: 0;" align="center" th:action="@{/snab-requests/snab-request/} + ${snabRequest.getId()} + @{/send}" method="post">
+                    <input type="text" name="back" th:value="@{/snab-requests/snab-request/} + ${snabRequest.getId()}" hidden>
+
+                  <input th:if="${(cDepart.get().getAbbr() == 'snab' || cDepart.get().getAbbr() == 'lead') && snabRequest.isAccepted() == false && snabRequest.isApproved() == true && snabRequest.getSnab() != null}" type="text" name="action" value="accept" hidden>
+                  <input th:if="${(cDepart.get().getAbbr() == 'snab' || cDepart.get().getAbbr() == 'lead') && snabRequest.isAccepted() == false && snabRequest.isApproved() == true && snabRequest.getSnab() != null}" class="formBase formButton" style="display: inline-block; margin: 5px;" type="submit" value="Принять">
+
+                  <input th:if="${(cDepart.get().getAbbr() == 'snab' || cDepart.get().getAbbr() == 'lead') && snabRequest.isAccepted() == true && snabRequest.isDone() == false}" type="text" name="action" value="done" hidden>
+                  <input th:if="${(cDepart.get().getAbbr() == 'snab' || cDepart.get().getAbbr() == 'lead') && snabRequest.isAccepted() == true && snabRequest.isDone() == false}" class="formBase formButton" style="display: inline-block; margin: 5px;" type="submit" value="Выполнена">
+
+                </form>
+
+              </div>
+            </div>
+            <div class="oDivBottom">
+              <a class="" style="text-decoration: none; padding: 0px; margin: 0px;" th:href="@{/snab-requests/snab-request/} + ${snabRequest.getId()} + @{/edit} + @{/(back=${back})}">
+                <p style="padding: 10px; margin: 0;" th:text="${snabRequest.getNote()}"></p>
+              </a>
+            </div>
+          </div>
+
+
+
+          <br>
+          <div class="regularBorder regularBlur" style="">
+
+            <form class="" style="padding: 0; margin: 0;" th:action="@{/snab-requests/snab-request/} + ${snabRequest.getId()} + @{/new-snab-point}" method="post">
+              <input type="text" name="back" th:value="@{back2}" hidden>
+              <div class="" style="display: block; padding: 0px; padding-top: 10px;">
+                <div class="" style="display: inline-block;" align="left">
+
+                  <input class="inputSnabrequests formBase" id="copyFrom" style="margin: 0px;" align="left" list="mats" name="mats" onchange="resetIfInvalid(this);" onblur="copyMeasure(event);" placeholder="Наименование" required>
+                  <datalist id="mats">
+                      <option class="formBase" th:each="priceMat : ${priceMats}" th:if="${priceMat.getName() != null}" th:value="${priceMat.getId() + ': ' + priceMat.getName() + ' [' + priceMat.getMeasurement().getName() + ']' }"></option>
+                  </datalist>
+
+                  <div class="inputSnabrequests" style="" align="left">
+                    <input class="formBase" id="copyTo" style="display: inline-block; width: 60px; max-width: 35%; margin: 5px;" readonly>
+                    <input class="formBase" style="display: inline-block; width: 60px; max-width: 25%; margin: 5px;" type="number" min="0" step="0.1" placeholder="Кол-во" name="amount" required>
+                    <input class="formBase formButton" style="display: inline-block; width: 110px; max-width: 50%; margin: 5px;" type="submit" value="Добавить">
+                  </div>
+                </div>
+                <textarea class="textareaSnabrequests formBase" style="display: inline-block;" rows="2" placeholder="Примечание" name="note"></textarea>
+              </div>
+            </form>
+
+
+
+            <div class="border-top" style="display: block; padding: 7px;" th:each="snabPoint : ${snabRequest.getSnabPoints()}" align="center">
+
+              <textarea class="pSnabrequests formBase" style="display: inline-block;" th:text="${snabPoint.getPriceMat().getName()}" readonly></textarea>
+
+              <div class="divSnabrequests" style="display: inline-block;">
+                <input class="buttonSnabrequests formBase" style="width: 100px; max-width: calc(100% - 20px); margin: 0px; vertical-align: middle;" th:value="${snabPoint.getAmount() + ' ' + snabPoint.getPriceMat().getMeasurement().getName()}" readonly>
+                <div class="buttonSnabrequests" style="padding: 15px 0px; padding-bottom: 0px;">
+                  <a class="buttonTask" id="edit" style="margin: 7px; padding: 10px 20px; padding-bottom: 0px;" th:href="@{/snab-requests/snab-request/} + ${snabRequest.getId()} + @{/edit-snab-point/} + ${snabPoint.getId()}"></a>
+                  <form style="padding: 0; margin: 0; display: inline-block;" th:action="@{/snab-requests/snab-request/} + ${snabRequest.getId()} + @{/delete-snab-point/} + ${snabPoint.getId()}" method="post">
+                    <a class="buttonTask" id="cross" style="margin: 7px; padding: 10px 20px; padding-bottom: 0px;" onclick="parentNode.submit();" href="#"></a>
+                  </form>
+                </div>
+              </div>
+
+              <textarea class="textareaSnabrequests formBase" style="display: inline-block;" th:text="${snabPoint.getNote()}" readonly></textarea>
+            </div>
+
+
+
+          </div>
+
+
+
+
+
+          <br>
+    </div>
+    <script>
+      function resetIfInvalid(el){
+         //just for beeing sure that nothing is done if no value selected
+         if (el.value == "")
+             return;
+         var options = el.list.options;
+         for (var i = 0; i< options.length; i++) {
+             if (el.value == options[i].value)
+                 //option matches: work is done
+                 return;
+         }
+         //no match was found: reset the value
+         el.value = "";
+      }
+
+      function copyMeasure(e) {
+         e.preventDefault();
+         var str = document.getElementById("copyFrom").value;
+         var id1 = str.indexOf('[');
+         var id2 = str.indexOf(']');
+         document.getElementById("copyTo").value = str.substring(++id1, id2);
+         return false;
+      }
+    </script>
+  </body>
+</html>

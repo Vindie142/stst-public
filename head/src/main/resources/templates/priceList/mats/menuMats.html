@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title>Материалы</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+
+      <br>
+      <a class="topButton hov" style="text-decoration: none; margin: 0;" href="/price-list/mats/common/sections"><p class="topDivForButton regularBlur regularBorder" style="margin: 0; padding: calc(10px + 0.4em);" align="center">Прайс материалов общий</p></a>
+      <br>
+      <span class="" th:each="city : ${cities}">
+        <a class="topButton hov" style="text-decoration: none; margin: 0;" th:href="@{/price-list/mats/} + ${city.getKey()} + @{/sections}"><p class="topDivForButton regularBlur regularBorder" style="margin: 0; padding: calc(10px + 0.4em);" align="center" th:text="${'Прайс материалов ' + city.getValue()}"></p></a>
+        <br>
+      </span>
+        <br>
+    </div>
+  </body>
+</html>

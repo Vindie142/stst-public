@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Стройстандартъ</title>
+    <link rel="stylesheet" href="/styles.css" type="text/css"/>
+    <link type="/image/png" sizes="192x192" rel="icon" href="favicon-192x192.png">
+    <link type="/image/png" sizes="16x16" rel="icon" href="favicon-16x16.png">
+    <link type="/image/png" sizes="32x32" rel="icon" href="favicon-32x32.png">
+    <link type="/image/png" sizes="96x96" rel="icon" href="favicon-96x96.png">
+</head>
+
+<body>
+	<div class="regularBlur wholePage" align="center">
+
+    <div style="height: 30vh;" ></div>
+    <div class="regularDiv">
+      <p class="" th:text="${info}"/>
+  	  <form th:method="POST" action="/login">
+  	      <input class="formBase" style="font-size: 20px;" type="text" required="required" placeholder="Никнейм" name="nickname" th:value="${nickname}"><br>
+  	      <input class="formBase" style="font-size: 20px;" type="password" required="required" placeholder="Пароль" name="password"><br>
+  	      <input class="formBase formButton" style="font-size: 20px;" type="submit" value="Войти">
+  	  </form>
+	  </div>
+  </div>
+
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title th:text="${'Отработанное время за ' + monthDate}"></title>
+    <link href="/stylesPrint.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <button><div class="page" align="center">
+      <div id="space" align="center">
+      </div>
+
+          <h3 class="headerOfDiv headerBlur" style="padding: 0px; width: calc(100% - 20px);">
+            <p style="display: inline-block; margin-top: 0; margin-bottom: 0;" th:text="${'Отработанное время за ' + monthDate}"></p>
+          </h3>
+
+          <table style="font-size: 10px;">
+                <tr align="center">
+                  <td id="th">ID + Имя</td>
+                  <td id="th">1</td>
+                  <td id="th">2</td>
+                  <td id="th">3</td>
+                  <td id="th">4</td>
+                  <td id="th">5</td>
+                  <td id="th">6</td>
+                  <td id="th">7</td>
+                  <td id="th">8</td>
+                  <td id="th">9</td>
+                  <td id="th">10</td>
+                  <td id="th">11</td>
+                  <td id="th">12</td>
+                  <td id="th">13</td>
+                  <td id="th">14</td>
+                  <td id="th">15</td>
+                  <td id="th">16</td>
+                  <td id="th">17</td>
+                  <td id="th">18</td>
+                  <td id="th">19</td>
+                  <td id="th">20</td>
+                  <td id="th">21</td>
+                  <td id="th">22</td>
+                  <td id="th">23</td>
+                  <td id="th">24</td>
+                  <td id="th">25</td>
+                  <td id="th">26</td>
+                  <td id="th">27</td>
+                  <td id="th">28</td>
+                  <td id="th">29</td>
+                  <td id="th">30</td>
+                  <td id="th">31</td>
+                  <td id="th">=</td>
+                  <td id="th">П</td>
+                </tr>
+
+                <tr th:each="toPrint : ${toPrints}">
+                  <td style="padding: 0.1em;" th:text="${toPrint.name}"></td>
+                  <td align="center" style="padding: 0.1em;" th:each="hourAndExtraHour : ${toPrint.hoursAndExtraHours}">
+                    <p style="margin-top: 0;margin-bottom: 0.1em;" th:text="${hourAndExtraHour[0]}"></p>
+                    <p style="margin-top: 0;margin-bottom: 0;" th:text="${hourAndExtraHour[1]}"></p>
+                  </td>
+                  <td align="center" style="padding: 0.1em;" th:text="${toPrint.allHours}">=</td>
+                  <td align="center" style="padding: 0.1em;" th:text="${toPrint.allExtraHours}">П</td>
+                </tr>
+
+        </table>
+
+
+
+
+
+          <br>
+    </div></button>
+    <script type="text/javascript">
+      function addDiv(parent_div, content, attrs) {
+        var div = document.createElement('hr');
+        var parent = document.getElementById(parent_div);
+
+        for (var key in attrs) {
+          if (attrs.hasOwnProperty(key)) {
+            div.setAttribute(key, attrs[key]);
+          }
+        }
+        div.innerHTML = content;
+        if (parent) {
+          parent.appendChild(div);
+        }
+        }
+
+        var button = document.getElementsByTagName('button')[0];
+        if (button) {
+        button.addEventListener('click', function() {
+          // change dynamically your new div
+          addDiv('space', ' ', {
+            'class': 'someclass someclass',
+            'data-attr': 'attr'
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Изменить позицию заявки</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+
+      <br>
+
+      <div class="regularBorder regularBlur" style="">
+        <form class="" style="padding: 0; margin: 0;" th:action="@{/snab-requests/snab-request/} + ${snabPoint.getSnabRequest().getId()} + @{/edit-snab-point/} + ${snabPoint.getId()}" method="post">
+          <div class="" style="display: block; padding: 10px;">
+            <div class="" style="display: inline-block;" align="left">
+
+              <input class="inputSnabrequests formBase" id="copyFrom" style="margin: 0px;" align="left" list="mats" name="mats" onchange="resetIfInvalid(this);" onblur="copyMeasure(event);" placeholder="Наименование" th:value="${snabPoint.getPriceMat().getId() + ': ' + snabPoint.getPriceMat().getName() + ' [' + snabPoint.getPriceMat().getMeasurement().getName() + ']' }" required>
+              <datalist id="mats">
+                  <option class="formBase" th:each="priceMat : ${priceMats}" th:if="${priceMat.getName() != null}" th:value="${priceMat.getId() + ': ' + priceMat.getName() + ' [' + priceMat.getMeasurement().getName() + ']' }"></option>
+              </datalist>
+
+              <div class="inputSnabrequests" style="" align="left">
+                <input class="formBase" id="copyTo" style="display: inline-block; width: 60px; max-width: 35%; margin: 5px;" th:value="${snabPoint.getPriceMat().getMeasurement().getName()}" readonly>
+                <input class="formBase" style="display: inline-block; width: 60px; max-width: 25%; margin: 5px;" type="number" min="0" step="0.1" placeholder="Кол-во" name="amount" th:value="${snabPoint.getAmount()}" required>
+                <input class="formBase formButton" style="display: inline-block; width: 110px; max-width: 50%; margin: 5px;" type="submit" value="Изменить">
+              </div>
+            </div>
+            <textarea class="textareaSnabrequests formBase" style="display: inline-block;" rows="2" placeholder="Примечание" name="note" th:text="${snabPoint.getNote()}"></textarea>
+          </div>
+        </form>
+      </div>
+
+
+  </div>
+  <script>
+    function resetIfInvalid(el){
+       //just for beeing sure that nothing is done if no value selected
+       if (el.value == "")
+           return;
+       var options = el.list.options;
+       for (var i = 0; i< options.length; i++) {
+           if (el.value == options[i].value)
+               //option matches: work is done
+               return;
+       }
+       //no match was found: reset the value
+       el.value = "";
+    }
+
+    function copyMeasure(e) {
+       e.preventDefault();
+       var str = document.getElementById("copyFrom").value;
+       var id1 = str.indexOf('[');
+       var id2 = str.indexOf(']');
+       document.getElementById("copyTo").value = str.substring(++id1, id2);
+       return false;
+    }
+  </script>
+  </body>
+</html>

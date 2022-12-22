@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title th:text="${(status != null ? 'cтатус: ' + status + ';' : '') + (employee != null ? ' сотрудник: ' + employee.getNormName() + ';' : '') + ' город: ' + city}"></title>
+    <link href="/stylesPrint.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <button><div class="page" id="page" align="center">
+      <div id="space" align="center">
+      </div>
+
+      <div class="hov" style="text-decoration: none;" th:each="object : ${objects}" th:href="@{/objects/object/} + ${object.getId()}">
+      <div class="oMaindiv regularBorder" style="border-top: 1px solid black; border-bottom: 1px solid black;">
+          <div class="div1-3" id="div1-3--1" style="">
+            <div class="headerBlur" id="streetInO" style="height: 50%; display: flex; align-items: center;">
+              <p style="margin: 0; width: 100%;" th:text="${object.getStreet() + ' ' + object.getBuilding()}"></p>
+            </div>
+            <div class="regularBlur" id="statusInO" style="height: calc(50% - 2px); display: flex; align-items: center;">
+              <h2 style="width: 20%; margin: 0;" th:text="${object.getCurrStatus()}"></h2>
+              <p style="margin: 0; width: 80%;" th:text="${object.getCity().getName() + ' [' + object.getId() + ']'}"></p>
+            </div>
+          </div>
+
+          <div class="div1-3 regularBlur" id="div1-3--2">
+            <div align="left" style="padding-left: 10px;">
+              <p th:text="${'ПТО: ' + (object.getPto() == null ? ' ' : object.getPto().getNormName())}"></p>
+              <p th:text="${'Маст: ' + (object.getMaster() == null ? ' ' : object.getMaster().getNormName())}"></p>
+            </div>
+          </div>
+
+          <div class="div1-3 regularBlur" style="padding-left: 10px;"   id="div1-3--3" align="left">
+            <p th:if="${object.getActions() != null && object.getActions().size() > 0}" th:text="${object.getCurrAction()}"></p>
+          </div>
+      </div>
+      <br>
+    </div>
+
+    </div></button>
+    <script type="text/javascript">
+      function addDiv(parent_div, content, attrs) {
+        var div = document.createElement('hr');
+        var parent = document.getElementById(parent_div);
+
+        for (var key in attrs) {
+          if (attrs.hasOwnProperty(key)) {
+            div.setAttribute(key, attrs[key]);
+          }
+        }
+        div.innerHTML = content;
+        if (parent) {
+          parent.appendChild(div);
+        }
+        }
+
+        var button = document.getElementsByTagName('button')[0];
+        if (button) {
+        button.addEventListener('click', function() {
+          // change dynamically your new div
+          addDiv('space', ' ', {
+            'class': 'someclass someclass',
+            'data-attr': 'attr'
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

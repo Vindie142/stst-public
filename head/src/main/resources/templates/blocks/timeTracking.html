@@ -1,0 +1,68 @@
+<div th:fragment="timeTracking">
+
+	<div class="regularDiv regularBorder regularBlur ourFont" align="center">
+		<a style="text-decoration: none; margin: 0;" href="/time/start-stop">
+			<div class="chapterInMenu" style="padding: 0em;" id="theLowest">
+				<p th:if="${open == false}" style="font-size: 35px; margin: 0.3em; display: inline-block;">►</p>
+				<p th:if="${open == false}" style="font-size: 23px; margin: 0.6em; margin-left: 0.4em; display: inline-block; width: 4em;" th:text="${workedTime	}"></p>
+				<p th:if="${open == true}" style="font-size: 23px; margin: 0.8em; margin-right: 0; display: inline-block;">▐ ▌</p>
+				<p th:if="${open == true}" id="timeShower" style="font-size: 23px; margin: 0.8em; margin-left: 0.4em; display: inline-block; width: 4em;"></p>
+				<input type="text" name="time" id="time" th:value="${workedTimeForJS}" hidden>
+			</div>
+		</a>
+	</div>
+
+	<script type="text/javascript">
+		var h1 = document.getElementById('timeShower');
+		var time = document.getElementById('time').value;
+		var sec;
+		var min;
+		var hrs;
+		var t;
+
+		function parseDate() {
+			var hms = time.split(':');
+			hrs = hms[0]-0;
+			min = hms[1]-0;
+			sec = hms[2]-0;
+
+//			var startTime = new Date();
+//			startTime.setHours(hms[0]);
+//			startTime.setMinutes(hms[1]);
+//			startTime.setSeconds(hms[2]);
+//			var now = new Date();
+//			var ms = (now - startTime);
+//			sec = Math.floor((ms / 1000) % 60),
+//			min = Math.floor((ms / (1000 * 60)) % 60),
+//			hrs = Math.floor((ms / (1000 * 60 * 60)) % 24);
+		}
+
+		function tick(){
+			 sec++;
+			 if (sec >= 60) {
+					 sec = 00;
+					 min++;
+					 if (min >= 60) {
+							 min = 00;
+							 hrs++;
+					 }
+			 }
+		}
+		function add() {
+			 tick();
+			 h1.textContent = (hrs > 9 ? hrs : "0" + hrs)
+							+ ":" + (min > 9 ? min : "0" + min)
+							+ ":" + (sec > 9 ? sec : "0" + sec);
+			 timer();
+		}
+		function timer() {
+			t = setTimeout(add, 1000);
+		}
+
+		parseDate();
+		timer();
+	</script>
+	<noscript><p>Нужен включённый JavaScript</p></noscript>
+
+
+</div>

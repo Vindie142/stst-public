@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title>Подразделы прайса</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+      <br>
+
+      <form class="" style="padding: 0;" th:action="${'/price-list/sections/section/' + id + '/new-subsection'}" method="post">
+        <input class="topButton headerBlur formBase" style="width: calc(100% - 150px); display: inline-block; margin: 0;" name="name" placeholder="Добавить подраздел" required>
+        <input class="formBase headerBlur topButton" style="width: 120px; display: inline-block; margin: 0;" type="submit" value="Добавить">
+      </form>
+
+        <br>
+        <div th:each="subsection : ${subsections}">
+          <div class="regularBlur regularBorder" style="">
+            <div class="border-bottom" style="padding: 10px;">
+              <p class="topButton" style="" align="center" th:text="${subsection.getOrderNum() + ': ' + subsection.getName()}"></p>
+            </div>
+            <div class="" style="padding: 10px;">
+              <a class="hov" th:href="@{/price-list/sections/section/} + ${id} + '/subsection/' + ${subsection.getId()} + @{/edit}">Изменить</a>
+              <a class="hov" th:href="@{/price-list/sections/section/} + ${id} + '/subsection/' + ${subsection.getId()} + @{/delete}">Удалить</a>
+            </div>
+          </div>
+          <br>
+        </div>
+
+        <br>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,87 @@
+<div th:fragment="head">
+
+
+	<header class="ourFont">
+		<div class="divInHeader">
+				<a th:href="${back}">
+					<table style="display: inline-block; position: absolute; left: 3px;">
+						<tr>
+							<td><img class="logoInHeader" src="/logo.png"></td>
+							<td><p class="pInHeader" id="stroystandart">СТРОЙСТАНДАРТЪ</p></td>
+						</tr>
+					</table>
+				</a>
+			<div class="rightDivivInHeader">
+				<table style="display: inline-block; position: absolute; right: 3px; top: -0.06em;">
+					<tr>
+						<td><a style="margin: 0; text-decoration: none;" th:href="@{/} + ${cDepart.get().getAbbr()}"><p th:text="${cDepart.get().getName()}" class="pInHeader" style="margin: 0; position: relative; top: -0.4em;"></p></a></td>
+						<td><button onclick="bellFunction()" class="bellbtn" th:if="${notifs != null}"><img class="bellInHeader" src="/bell.png" th:if="${notifs != null}"></button></td>
+						<td><button onclick="menuBtnFunction()" class="menubtn"><img class="menuInHeader" src="/menu.png"></button></td>
+					</tr>
+				</table>
+
+				<div  class="bell-content regularBlur" id="bellDown" align="center">
+
+					<div th:each="notif : ${notifs}">
+
+						<div class="inBell-content border-top">
+							<p th:text="${notif.getText()}"></p><a th:if="${notif.getLink() != null}" th:href="${notif.getLink()}">смотреть</a>
+							<form class="" style="padding: 0;" th:action="${cDepart.get().getAbbr()} + @{/del-notif/} + ${notif.getId()}" method="post">
+								<input class="formBase formButton" type="submit" value="Прочитано">
+							</form>
+						</div>
+
+					</div>
+
+				</div>
+
+
+				<div  class="menu-content regularBlur" id="menuDown" align="center">
+					<a href="/pto">ПТО</a><br>
+					<a href="/mast">МАСТЕР</a><br>
+					<a href="/snab">СНАБЖЕНИЕ</a><br>
+					<a href="/sales">ПРОДАЖИ</a><br>
+					<a href="/buh">БУХГАЛТЕРИЯ</a><br>
+					<a href="/adm">АДМИНИСТРАЦИЯ</a><br>
+					<a href="/adm2">АДМИН+</a><br>
+					<a href="/lead">РУКОВОДСТВО</a><br>
+					<br>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div class="fakeHeader2"><div class="fakeHeader"></div></div>
+	<script language="JavaScript">
+		/* Когда пользователь нажимает на кнопку,
+		переключение между скрытием и отображением раскрывающегося содержимого */
+		function menuBtnFunction() {
+			document.getElementById('menuDown').classList.toggle("show");
+		}
+		function bellFunction() {
+			document.getElementById('bellDown').classList.toggle("show");
+		}
+		// Закройте выпадающее меню, если пользователь щелкает за его пределами
+		window.onclick = function(event) {
+			if (!event.target.matches('.menubtn') && !event.target.matches('.menuInHeader') && !event.target.matches('.bellbtn') && !event.target.matches('.bellInHeader')) {
+				var dropdowns = document.getElementsByClassName("menu-content");
+				var i;
+				for (i = 0; i < dropdowns.length; i++) {
+					var openDropdown = dropdowns[i];
+					if (openDropdown.classList.contains('show')) {
+						openDropdown.classList.remove('show');
+					}
+				}
+				var dropdowns = document.getElementsByClassName("bell-content");
+				var i;
+				for (i = 0; i < dropdowns.length; i++) {
+					var openDropdown = dropdowns[i];
+					if (openDropdown.classList.contains('show')) {
+						openDropdown.classList.remove('show');
+					}
+				}
+			}
+		}
+	</script>
+
+
+</div>

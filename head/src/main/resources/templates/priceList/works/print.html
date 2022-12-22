@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title th:text="${'Прайс работ ' + cityName}"></title>
+    <link href="/stylesPrint.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <button><div class="page" align="center">
+      <div id="space" align="center">
+      </div>
+
+          <h3 class="headerOfDiv headerBlur" style="padding: 0px; width: calc(100% - 20px); margin: 0px;"><p style="display: inline-block; margin: 5px;" th:text="${'Прайс работ ' + cityName}"></p></h3>
+
+          <div class="" th:each="sectionAndPriceWorks : ${mapSectionsAndPriceWorks}">
+            <h3 class="headerOfDiv headerBlur" style="padding: 0px; width: calc(100% - 20px); margin: 0px;"><p style="display: inline-block; margin: 5px;" th:text="${sectionAndPriceWorks.getKey()}"></p></h3>
+            <table>
+                  <tr>
+                    <td id="th">№</td>
+                    <td id="th">Наименование</td>
+                    <td id="th">Ед. изм.</td>
+                    <td id="th">Стоимость</td>
+                    <td id="th">№ мат</td>
+                  </tr>
+                  <tr th:each="priceWork : ${sectionAndPriceWorks.getValue()}">
+                    <td style="width: 5%;" th:utext="${priceWork.isDeleted() == true ? '<del>' + priceWork.getId() + '</del>' : priceWork.getId()}"></td>
+                    <td style="width: 70%;" th:utext="${priceWork.isDeleted() == true ? '<del>' + priceWork.getName() + '</del>' : priceWork.getName()}"></td>
+                    <td style="width: 7%;" th:utext="${priceWork.isDeleted() == true ? '<del>' + priceWork.getMeasurement().getName() + '</del>' : priceWork.getMeasurement().getName()}"></td>
+                    <td style="width: 13%;" th:utext="${priceWork.isDeleted() == true ? '<del>' + priceWork.getBeautifulPrice() + '</del>' : priceWork.getBeautifulPrice()}"></td>
+                    <td style="width: 5%;" th:utext="${priceWork.getPriceMat() == null ? 'нет' : ( priceWork.getPriceMat.isDeleted() == true ? '<del>' + priceWork.getPriceMat().getId() + '</del>' : priceWork.getPriceMat().getId() )}"></td>
+                  </tr>
+            </table>
+          </div>
+
+
+
+
+
+          <br>
+    </div></button>
+    <script type="text/javascript">
+      function addDiv(parent_div, content, attrs) {
+        var div = document.createElement('hr');
+        var parent = document.getElementById(parent_div);
+
+        for (var key in attrs) {
+          if (attrs.hasOwnProperty(key)) {
+            div.setAttribute(key, attrs[key]);
+          }
+        }
+        div.innerHTML = content;
+        if (parent) {
+          parent.appendChild(div);
+        }
+        }
+
+        var button = document.getElementsByTagName('button')[0];
+        if (button) {
+        button.addEventListener('click', function() {
+          // change dynamically your new div
+          addDiv('space', ' ', {
+            'class': 'someclass someclass',
+            'data-attr': 'attr'
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Изменить раздел</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+
+      <br>
+      <div class="regularDiv regularBorder regularBlur">
+        <form class="" th:action="@{/price-list/sections/section/} + ${section.getId()} + @{/edit}" method="post" >
+
+          <textarea class="formBase" style="width: 95%" rows="4" th:text="${section.getName()}" placeholder="Изменить название" name="name" required="required"></textarea>
+          <br>
+          <input class="formBase" type="number" min="1.0" step="1" oninput="this.value = Math.round(this.value);" th:value="${section.getOrderNum()}" placeholder="Порядковый номер" name="orderNum" required="required">
+
+          <p><input class="formBase formButton" type="submit" value="Изменить"></p>
+          <p class="" th:text="${info}"/>
+        </form>
+        <br>
+      </div>
+  </div>
+  </body>
+</html>

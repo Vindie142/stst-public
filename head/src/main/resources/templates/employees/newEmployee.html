@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Создать сотрудника</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+
+      <br>
+      <div class="regularDiv regularBorder regularBlur">
+        <form class="" action="/employees/new-employee" method="post">
+
+            <input class="formBase" type="text" placeholder="Фамилия" name="surname" required="required">
+            <input class="formBase" type="text" placeholder="Имя" name="name" required="required">
+            <input class="formBase" type="text" placeholder="Отчество" name="secondName">
+            <input class="formBase" type="phone" placeholder="Телефон" name="phone" required="required">
+            <input class="formBase" type="number" placeholder="Id chat TG" name="telegramChatId" required="required">
+
+            <input class="formBase" type="text" placeholder="Логин" name="nickname" required="required">
+            <input class="formBase" type="password" placeholder="Пароль" name="password" required="required">
+            <br>
+            <select class="formBase" name="depart" required="required">
+    						<option class="formBase" th:each="depart : ${departs}"  th:value="${depart.getKey()}" th:text="${depart.getValue()}"></option>
+    				</select>
+
+            <select class="formBase" name="city" required="required">
+    						<option class="formBase" th:each="city : ${cities}"  th:value="${city.getKey()}" th:text="${city.getValue()}"></option>
+    				</select>
+
+          <p><input class="formBase formButton" type="submit" value="Создать"></p>
+          <p class="" th:text="${info}"/>
+        </form>
+
+      </div>
+
+      <br>
+  </div>
+  </body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title>Новый объект</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+      <br>
+
+      <form class="" style="padding: 0;" action="/objects/new-object" method="post">
+      <div class="regularBorder" style="display: flex; align-items: center; flex-wrap: wrap;">
+        <h3 class="headerOfDiv headerBlur" style="padding: 10px;"><p>Новый объект</p>  </h3>
+        <div class="bodyOfDiv regularBlur" style="">
+
+            <div class="border-bottom" style="display: block; padding: 10px;" align="center">
+
+              <input class="formBase" style="width: 400px; max-width: calc(100% - 20px);" type="text" placeholder="Улица" name="street" required="required">
+              <br>
+              <input class="formBase" style="width: 400px; max-width: calc(100% - 20px);" type="text" placeholder="Район" name="district" required="required">
+              <br>
+              <input class="formBase" style="width: 100px; max-width: calc(100% - 20px);" type="text" placeholder="Дом" name="building" required="required">
+              <select class="formBase" style="width: 100px; max-width: calc(100% - 20px);" name="city" required="required">
+        					<option class="formBase" th:each="city : ${cities}"  th:value="${city.getKey()}" th:text="${city.getValue()}"></option>
+        			</select>
+              <table style="display: inline; margin: 20px;">
+                <tr>
+                  <td align="center"><div class="checkbox border-top-bottom2 border-right0"><input type="radio" class="checkboxStatus" id="checkbox_0" name="status" value="0" required="required"><label for="checkbox_0"></label></div></td>
+                  <td align="center"><div class="checkbox border-top-bottom2"><input type="radio" class="checkboxStatus" id="checkbox_1" name="status" value="1" required="required"><label for="checkbox_1"></label></div></td>
+                  <td align="center"><div class="checkbox border-top-bottom2 border-left0"><input type="radio" class="checkboxStatus" id="checkbox_2" name="status" value="2" required="required"><label for="checkbox_2"></label></div></td>
+                </tr>
+                <tr>  <td align="center"><p style="margin:0;">0</p></td> <td align="center"><p style="margin:0;">1</p></td> <td align="center"><p style="margin:0;">2</p></td>  </tr>
+              </table>
+            </div>
+            <div class="" style="display: block; padding: 10px;" align="center">
+              <input class="formBase" style="width: 400px; max-width: calc(100% - 20px);" type="text" placeholder="ФИО Заказчика" name="custName">
+              <br>
+              <input class="formBase" style="width: 400px; max-width: calc(100% - 20px);" type="phone" placeholder="Номер Заказчика" name="custPhone">
+              <br>
+              <input class="formBase" style="width: 400px; max-width: calc(100% - 20px);" type="email" placeholder="Почта Заказчика" name="custEmail">
+              <br>
+              <textarea class="formBase" style="width: 400px; max-width: calc(100% - 20px); margin: 0px;" rows="4" placeholder="Примечание" name="note"></textarea>
+
+            </div>
+            <div class="border-top" style="display: block; padding: 10px;" align="center">
+              <input class="formBase" style="width: 400px; max-width: calc(100% - 20px);" type="text" placeholder="Наименование работ" name="works">
+            </div>
+            <div class="border-top" style="display: block; padding: 10px;" align="center">
+
+              <label for="">Маст:</label>
+              <input class="formBase" list="masters" name="master" onchange="resetIfInvalid(this);" placeholder="Назначить мастера">
+              <datalist id="masters">
+                  <option class="formBase" th:each="master : ${masters}" th:value="${master.getId() + ': ' + master.getNormName()}"></option>
+              </datalist>
+              <br>
+              <label for="">От продаж:</label>
+              <input class="formBase" list="salesmans" name="salesman" onchange="resetIfInvalid(this);" placeholder="Выбрать продажника">
+              <datalist id="salesmans">
+                  <option class="formBase" th:each="sales : ${saleses}" th:value="${sales.getId() + ': ' + sales.getNormName()}"></option>
+              </datalist>
+
+              <p align="center"><input class="formBase formButton" type="submit" value="Создать"></p>
+              <p class="" th:text="${info}"/>
+            </div>
+            <br>
+
+    </div>
+    </div>
+    </form>
+    <br>
+    </div>
+    <script>
+      function resetIfInvalid(el){
+         //just for beeing sure that nothing is done if no value selected
+         if (el.value == "")
+             return;
+         var options = el.list.options;
+         for (var i = 0; i< options.length; i++) {
+             if (el.value == options[i].value)
+                 //option matches: work is done
+                 return;
+         }
+         //no match was found: reset the value
+         el.value = "";
+      }
+    </script>
+  </body>
+</html>

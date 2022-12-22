@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title>Разделы прайса</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+      <br>
+      <form class="" style="padding: 0;" action="/price-list/sections/new-section" method="post">
+        <input class="topButton headerBlur formBase" style="width: calc(100% - 150px); display: inline-block; margin: 0;" name="name" placeholder="Добавить раздел" required>
+        <input class="formBase headerBlur topButton" style="width: 120px; display: inline-block; margin: 0;" type="submit" value="Добавить">
+      </form>
+      <br>
+      <div th:each="section : ${sections}">
+        <div class="regularBlur regularBorder" style="">
+          <div class="border-bottom hov" style="padding: calc(10px + 0.4em);">
+            <a class="topButton" style="text-decoration: none;" th:href="@{/price-list/sections/section/} + ${section.getId()}" th:text="${section.getOrderNum() + ': ' + section.getName()}"></a>
+          </div>
+          <div class="" style="padding: 10px;">
+            <a class="hov" th:href="@{/price-list/sections/section/} + ${section.getId()} + @{/edit}">Изменить</a>
+            <a class="hov" th:href="@{/price-list/sections/section/} + ${section.getId()} + @{/delete}">Удалить</a>
+          </div>
+        </div>
+        <br>
+      </div>
+        <br>
+    </div>
+  </body>
+</html>

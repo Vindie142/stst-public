@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Изменить сотрудника</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+
+      <br>
+      <div class="regularDiv regularBorder regularBlur">
+        <form class="" th:action="@{/employees/edit-employee/} + ${employee.getId()}" method="post" >
+
+            <input class="formBase" type="text" th:value="${employee.getSurname()}" placeholder="Изменить фамилию" name="surname" required="required">
+            <input class="formBase" type="text" th:value="${employee.getName()}" placeholder="Изменить имя" name="name" required="required">
+            <input class="formBase" type="text" th:value="${employee.getSecondName()}" placeholder="Изменить отчество" name="secondName">
+            <input class="formBase" type="phone" th:value="${employee.getPhone()}" placeholder="Изменить телефон" name="phone" required="required">
+            <input class="formBase" type="number" th:value="${employee.getTelegramChatId()}" placeholder="Изменить id chat TG" name="telegramChatId" required="required">
+
+            <input class="formBase" type="text" th:value="${employee.getNickname()}" placeholder="Изменить логин" name="nickname" required="required">
+            <input class="formBase" type="password" placeholder="Изменить пароль" name="password">
+            <br>
+            <select class="formBase" name="depart" required="required">
+    						<option class="formBase" th:each="depart : ${departs}" th:selected="${employee.getDepart().getAbbr() == depart.getKey()}" th:value="${depart.getKey()}" th:text="${depart.getValue()}"></option>
+    				</select>
+
+            <select class="formBase" name="city" required="required">
+    						<option class="formBase" th:each="city : ${cities}" th:selected="${employee.getCity().getAbbr() == city.getKey()}" th:value="${city.getKey()}" th:text="${city.getValue()}"></option>
+    				</select>
+
+          <p><input class="formBase formButton" type="submit" value="Изменить"></p>
+          <p class="" th:text="${info}"/>
+        </form>
+        <a class="regularButton" th:href="@{/employees/test-notif/} + ${employee.getId()}">Проверить уведомления</a>
+        <br><br><br>
+        <a class="regularButton" th:href="@{/employees/delete-employee/} + ${employee.getId()}">Удалить</a>
+        <br><br>
+      </div>
+      <br>
+  </div>
+  </body>
+</html>

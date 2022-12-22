@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title>Изменить задачу</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+      <br>
+
+      <div class="task regularBorder regularBlur">
+        <form class="" style="padding: 0;" th:action="@{/tasks/edit/} + ${task.getId()}" method="post">
+          <input name="back" th:if="${back != null}" th:value="${back}" hidden>
+          <textarea class="newTask formBase regularBorder border-bottomH" style="" align="left" placeholder="Задача" name="text" rows="3" required="required" th:text="${task.getText()}"></textarea>
+          <div class="" style="">
+            <input class="formBase" style="margin: 0; padding: 10px; margin: auto 10px; width: calc(100% - 40px);" list="objects" name="object" onchange="resetIfInvalid(this);" placeholder="Привязка к объекту" th:value="${task.getObject() == null ? '' : task.getObject().getNormName()}">
+            <datalist id="objects">
+                <option class="formBase" th:each="object : ${objects}" th:value="${object.getNormName()}"></option>
+    				</datalist>
+            <input class="formBase formButton" style="margin: 10px;" type="submit" value="Изменить"></input>
+          </div>
+        </form>
+      </div>
+
+
+      <br>
+    </div>
+    <script>
+      function resetIfInvalid(el){
+         //just for beeing sure that nothing is done if no value selected
+         if (el.value == "")
+             return;
+         var options = el.list.options;
+         for (var i = 0; i< options.length; i++) {
+             if (el.value == options[i].value)
+                 //option matches: work is done
+                 return;
+         }
+         //no match was found: reset the value
+         el.value = "";
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title th:text="${object.getNormName()}"></title>
+    <link href="/stylesPrint.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <button><div class="page" id="page" align="center">
+      <div id="space" align="center">
+      </div>
+
+      <div class="regularBorder" style="display: flex; align-items: center; flex-wrap: wrap;">
+        <h3 class="headerOfDiv headerBlur" style="padding: 10px;"><a href="#" target="_blank" rel="noopener noreferrer" th:text="${object.getNormName()}"></a> </h3>
+        <div class="bodyOfDiv regularBlur" style="display: flex; align-items: center; flex-wrap: wrap;">
+
+          <div class="oDivLeftRight border-right">
+            <div class="" style="display: block; padding: 10px;" align="left">
+              <h2 style=" margin: 0;" th:text="${object.getCurrStatus() + ' статус'}"></h2>
+              <p th:text="${object.getCustName()}"></p>
+              <p th:text="${object.getCustPhone()}"></p>
+              <p th:text="${object.getCustEmail()}"></p>
+
+              <textarea class="formBase" style="width: calc(100% - 30px); margin: 0px 5px;" name="note" rows="4" placeholder="Примечание" th:text="${object.getNote()}" readonly></textarea>
+
+            </div>
+            <div class="border-top" style="display: block; padding-left: 10px;" align="left">
+              <p th:text="${object.getWorks()}"></p>
+            </div>
+            <div class="border-top" style="display: block; padding-left: 10px;" align="left">
+              <p th:if="${object.getPto() != null}"  th:text="${'ПТО: ' + object.getPto().getNormName()}"></p>
+              <p th:if="${object.getMaster() != null}" th:text="${'Маст: ' + object.getMaster().getNormName()}"></p>
+            </div>
+          </div>
+          <div class="oDivLeftRight" id="oDivRight">
+
+          </div>
+        </div>
+
+          <div class="oDivBottom">
+            <div class="" style="width: calc(100% - 10px); height: 400px; margin: 0;">
+              <div class="" th:each="action : ${object.getSortActions()}">
+                <p class="" style="display: inline-block; width: 90px; height: 100%; margin: 0px 0px;" th:text="${action.getNormalDate()}"></p>
+                <p class="formBase" style="display: inline-block; width: 460px; max-width: 95%; margin: 5px 0px;" th:text="${action.getAction()}"></p>
+              </div>
+            </div>
+            <br>
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+    </div>
+    </div>
+    </div></button>
+    <script type="text/javascript">
+      function addDiv(parent_div, content, attrs) {
+        var div = document.createElement('hr');
+        var parent = document.getElementById(parent_div);
+
+        for (var key in attrs) {
+          if (attrs.hasOwnProperty(key)) {
+            div.setAttribute(key, attrs[key]);
+          }
+        }
+        div.innerHTML = content;
+        if (parent) {
+          parent.appendChild(div);
+        }
+        }
+
+        var button = document.getElementsByTagName('button')[0];
+        if (button) {
+        button.addEventListener('click', function() {
+          // change dynamically your new div
+          addDiv('space', ' ', {
+            'class': 'someclass someclass',
+            'data-attr': 'attr'
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

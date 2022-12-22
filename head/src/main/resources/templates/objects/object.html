@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title th:text="${object.getNormName()}"></title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+      <a class="" style="width: 100%;" target="_blank" th:href="@{/objects/object/} + ${object.getId()} + @{/print}"> <span class="print"></span> </a>
+      <br>
+
+      <div class="regularBorder" style="display: flex; align-items: center; flex-wrap: wrap;">
+        <h3 class="headerOfDiv headerBlur" style="padding: 10px;"><a th:href="@{/objects/object/} + ${object.getId()} + @{/to-yandex}" target="_blank" rel="noopener noreferrer" th:text="${object.getNormName()}"></a> </h3>
+        <div class="bodyOfDiv regularBlur" style="display: flex; align-items: center; flex-wrap: wrap;">
+
+          <div class="oDivLeftRight">
+            <div class="" style="display: block; padding: 10px;" align="left">
+              <p th:text="${object.getCustName()}"></p>
+              <p th:text="${object.getCustPhone()}"></p>
+              <p th:text="${object.getCustEmail()}"></p>
+
+              <textarea class="formBase" style="width: calc(100% - 30px); margin: 0px 5px;" name="note" rows="4" placeholder="Примечание" th:text="${object.getNote()}" readonly></textarea>
+
+            </div>
+            <div class="border-top" style="display: block; padding: 10px;" align="left">
+              <p th:text="${object.getWorks()}"></p>
+            </div>
+            <div class="border-top" style="display: block; padding: 10px;" align="left">
+              <p th:if="${object.getPto() != null}"  th:text="${'ПТО: ' + object.getPto().getNormName()}"></p>
+              <p th:if="${object.getMaster() != null}" th:text="${'Маст: ' + object.getMaster().getNormName()}"></p>
+            </div>
+          </div>
+          <div class="oDivLeftRight" id="oDivRight">
+            <div class="">
+              <form class="" style="padding: 10px;" th:action="@{/objects/object/} + ${object.getId()}" method="post"><input type="text" name="typeForm" value="status" hidden>
+
+                <table style="display: inline; margin: 20px;">
+                  <tr> <td align="center"><p style="margin:0;">7</p></td> <td align="center"><div class="checkbox border-top2"><input type="checkbox" class="checkboxStatus" id="checkbox_7" th:checked="${object.getStatus(7) != null} ? 'checked'" name="7" value="true" onclick="submit();"><label for="checkbox_7"></label></div></td> <td></td> <td><p style="margin:0;" th:text="${object.getStatus(7)}"></p></td>  </tr>
+                  <tr> <td align="center"><p style="margin:0;">6</p></td> <td align="center"><div class="checkbox"><input type="checkbox" class="checkboxStatus" id="checkbox_6" th:checked="${object.getStatus(6) != null}" name="6" value="true" onclick="submit();"><label for="checkbox_6"></label></div></td> <td></td> <td><p style="margin:0;" th:text="${object.getStatus(6)}"></p></td>  </tr>
+                  <tr> <td align="center"><p style="margin:0;">5</p></td> <td align="center"><div class="checkbox"><input type="checkbox" class="checkboxStatus" id="checkbox_5" th:checked="${object.getStatus(5) != null}" name="5" value="true" onclick="submit();"><label for="checkbox_5"></label></div></td> <td></td> <td><p style="margin:0;" th:text="${object.getStatus(5)}"></p></td>  </tr>
+                  <tr> <td align="center"><p style="margin:0;">4</p></td> <td align="center"><div class="checkbox"><input type="checkbox" class="checkboxStatus" id="checkbox_4" th:checked="${object.getStatus(4) != null}" name="4" value="true" onclick="submit();"><label for="checkbox_4"></label></div></td> <td></td> <td><p style="margin:0;" th:text="${object.getStatus(4)}"></p></td>  </tr>
+                  <tr> <td align="center"><p style="margin:0;">3</p></td> <td align="center"><div class="checkbox"><input type="checkbox" class="checkboxStatus" id="checkbox_3" th:checked="${object.getStatus(3) != null}" name="3" value="true" onclick="submit();"><label for="checkbox_3"></label></div></td> <td></td> <td><p style="margin:0;" th:text="${object.getStatus(3)}"></p></td>  </tr>
+                  <tr> <td align="center"><div class="checkbox border-top-bottom2 border-right0"><input type="radio" class="checkboxStatus" id="checkbox_0" th:checked="${object.getStatus(0) != null}" name="012" value="0" onclick="submit();"><label for="checkbox_0"></label></div></td>
+                       <td align="center"><div class="checkbox border-bottom2"><input type="radio" class="checkboxStatus" id="checkbox_1" th:checked="${object.getStatus(1) != null}" name="012" value="1" onclick="submit();"><label for="checkbox_1"></label></div></td>
+                       <td align="center"><div class="checkbox border-top-bottom2 border-left0"><input type="radio" class="checkboxStatus" id="checkbox_2" th:checked="${object.getStatus(2) != null}" name="012" value="2" onclick="submit();"><label for="checkbox_2"></label>&nbsp;</div></td>
+                       <td><p style="margin:0;" th:if="${object.getStatus(0) != null}" th:text="${object.getStatus(0)}"></p><p style="margin:0;" th:if="${object.getStatus(1) != null}" th:text="${object.getStatus(1)}"></p><p style="margin:0;" th:if="${object.getStatus(2) != null}" th:text="${object.getStatus(2)}"></p></td>
+                  </tr>
+                  <tr>  <td align="center"><p style="margin:0;">0</p></td> <td align="center"><p style="margin:0;">1</p></td> <td align="center"><p style="margin:0;">2</p></td> <td></td>  </tr>
+                </table>
+
+                <table style="display: inline;margin: 10px;" align="center">
+                  <tr> <td colspan="2" style="width: 90px;" align="center"><p style="margin:0;" th:if="${object.getStatus(8) != null}" th:text="${object.getStatus(8)}"></p><p style="margin:0;" th:if="${object.getStatus(9) != null}" th:text="${object.getStatus(9)}"></p></td>  </tr>
+                  <tr> <td align="center"> <div class="checkbox border-top-bottom2"><input type="checkbox" class="checkboxStatus" id="checkbox_8" th:checked="${object.getStatus(8) != null}" name="8" value="true" onclick="submit();"><label for="checkbox_8"></label> </td>
+                       <td align="center"> <div class="checkbox border-top-bottom2"><input type="checkbox" class="checkboxStatus" id="checkbox_9" th:checked="${object.getStatus(9) != null}" name="9" value="true" onclick="submit();"><label for="checkbox_9"></label> </td>
+                  </tr>
+                  <tr> <td align="center"><p style="margin:0;">8</p></td>
+                       <td align="center"><p style="margin:0;">9</p></td>
+                  </tr>
+                </table>
+
+
+              </form>
+            </div>
+            <div class="">
+              <form class="" style="padding: 0;" th:action="@{/objects/object/} + ${object.getId()}" method="post">
+                <input type="text" name="typeForm" value="action" hidden>
+                <input class="formBase" style="width: calc(100% - 100px); margin: 5px; font-size: 18px;" type="text" name="action" value="" placeholder="Добавить действие">
+                <input class="formBase" style="width: 40px; font-size: 20px; margin: 0px 5px; cursor: pointer;" type="submit" value="+">
+              </form>
+            </div>
+            <div class="" style="width: calc(100% - 10px); height: 400px; margin: 0; overflow-y: scroll;">
+              <div class="" th:each="action : ${object.getSortActions()}">
+                <p class="" style="display: inline-block; width: 90px; height: 100%; margin: 0px 0px;" th:text="${action.getNormalDate()}"></p>
+                <p class="formBase" style="display: inline-block; width: 460px; max-width: 95%; margin: 5px 0px;" th:text="${action.getAction()}"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="oDivBottom">
+            <a class="regularButton" style="display: inline-block;" th:href="@{/objects/object/edit/} + ${object.getId()}">Изменить</a>
+            <a class="regularButton" style="display: none;" th:if="${object.getCurrStatus() >= 4}" href="#">Графики</a>
+            <a class="regularButton" style="display: inline-block;" th:if="${object.getCurrStatus() >= 4}" th:href="@{/objects/object/} + ${object.getId()} + @{/snab-requests}">Заявки</a>
+            <a class="regularButton" style="display: inline-block;" href="#">Затраты</a>
+            <br>
+          </div>
+
+        </div>
+      </div>
+
+
+
+
+
+
+      <div class="task regularBorder regularBlur">
+        <form class="" style="padding: 0;" action="/tasks/new-task" method="post">
+          <input name="back" th:value="${'/objects/object/' + object.getId()}" hidden>
+          <textarea class="newTask formBase regularBorder border-bottomH" style="" type="text" align="left" placeholder="Задача" name="text" rows="3" required="required"></textarea>
+          <div class="" style="">
+            <input name="object" th:value="${object.getNormName()}" hidden>
+            <input class="formBase" style="margin: 0; padding: 10px; margin: auto 10px; width: 140px;" list="employees" name="employeeTo" onchange="resetIfInvalid(this);" placeholder="Кому">
+            <datalist id="employees">
+                <option class="formBase" th:each="employee : ${employees}" th:value="${employee.getId() + ': ' +employee.getNormName()}"></option>
+            </datalist>
+            <input class="formBase formButton" style="margin: 10px; margin-top: 3px;" type="submit" value="Создать"></input>
+          </div>
+        </form>
+      </div>
+
+
+      <div class="task regularBorder" th:each="task : ${tasks}">
+        <h3 class="headerOfDiv headerBlur" style="padding: 10px; width: calc(100% - 20px);"></h3>
+        <div class="bodyOfDiv regularBlur" style="">
+          <a style="text-decoration: none;" th:href="${task.getSender() != null ? '' : '/tasks/edit/' + task.getId() + '?back=%2Fobjects%2Fobject%2F' + object.getId()}"> <p style="padding: 10px; padding-top:0; padding-bottom:0; margin-top:0; margin-bottom:0;" align="left" th:text="${task.getText()}"></p> </a>
+          <div class="border-top" style="display: flex; justify-content: flex-end;">
+            <form class="" style="padding: 0;" th:if="${task.getSender() != null}" th:action="@{/tasks/message/} + ${task.getId()}" method="get">
+              <input type="text" name="back" th:value="${'/objects/object/' + object.getId()}" hidden>
+              <input class="textTask" type="submit"  th:value="${task.getSender().getNormName()}">
+            </form>
+
+            <form class="border-left" style="padding: 0;" th:if="${task.getSender() == null}" th:action="@{/tasks/transfer/} + ${task.getId()}" method="get">
+              <input type="text" name="back" th:value="${'/objects/object/' + object.getId()}" hidden>
+              <input type="submit" class="buttonTask" id="arrow" value=" ">
+            </form>
+            <form class="border-left" style="padding: 0;" th:action="@{/tasks/done/} + ${task.getId()}" method="post">
+              <input type="text" name="back" th:value="${'/objects/object/' + object.getId()}" hidden>
+              <input type="submit" class="buttonTask" id="checkMark" value=" ">
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <br><br><br><br><br><br><br><br><br>
+    </div>
+  </body>
+</html>

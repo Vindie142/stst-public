@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Добавить материал</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+
+      <br>
+      <div class="regularDiv regularBorder regularBlur">
+
+        <form class="" th:action="@{/price-list/mats/} + ${city} + @{/new-price-mat}" method="post">
+            <input type="text" name="back" th:value="${back}" hidden>
+
+            <select class="formBase" style="margin-bottom: 0; max-width: 100%;" name="section" required="required">
+              <option class="formBase" value="-1" selected>Выберите раздел!</option>
+              <option class="formBase" th:each="section : ${sections}" th:selected="${sectionId == section.getId()}" th:value="${section.getId()}" th:text="${section.getName()}"></option>
+            </select>
+
+            <select class="formBase" name="city" required="required">
+              <option class="formBase" value="-1" selected>Общий прайс</option>
+              <option class="formBase" th:each="cityy : ${cities}" th:selected="${city == cityy.getKey()}" th:value="${cityy.getKey()}" th:text="${cityy.getValue()}"></option>
+            </select>
+            <br>
+
+            <input class="formBase" style="width: calc(80% - 40px);" type="text" placeholder="Название мат." name="name" required="required">
+            <select class="formBase" style="width: 20%;" name="measurement" placeholder="Ед. изм." required="required">
+              <option class="formBase" th:each="measurement : ${measurements}" th:value="${measurement.getKey()}" th:text="${measurement.getValue()}"></option>
+            </select>
+            <br>
+            <input class="formBase" style="width: 100px;" type="number" step=".01" min="0" placeholder="Стоимость" name="price" required="required">
+            <br>
+            <label for="equipment"><p style="display: inline-block;">Оборудование: </p></label>
+            <input class="formBase" id="equipment" type="checkbox" name="equipment">
+
+          <p><input class="formBase formButton" type="submit" value="Добавить"></p>
+          <p class="" th:text="${info}"/>
+        </form>
+
+      </div>
+
+
+  </div>
+  </body>
+</html>

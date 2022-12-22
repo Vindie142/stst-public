@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title th:text="${'Время работы у ' + employee.getNormName() + ' ' + dayDate}"></title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+
+      <br>
+          <h3 class="headerOfDiv headerBlur" style="padding: 10px; width: calc(100% - 20px);"><p style="display: inline-block;" th:text="${'Время работы у ' + employee.getNormName() + ' ' + dayDate + ' = ' + workedTime}"></p></h3>
+          <div class="bodyOfDiv regularBlur" style="">
+
+            <div class="divSnabrequests" style="display: inline-block; padding-bottom: 0;">
+              <form class="" style="padding: 0; margin: 0;" th:action="@{/time/editTimes/new}" method="post">
+                <input type="text" name="employeeId" th:value="${employee.getId()}" hidden>
+                <input type="text" name="dayDate" th:value="${dayDate}" hidden>
+
+                <div style="display: inline-block; padding: 0.3em;">
+                  <label for="time1" class="fontColor" style="display: inline;">Новый промежуток c:</label>
+                  <input name="time1" id="time1" type="time" class="buttonSnabrequests formBase" style="width: 100px; max-width: calc(100% - 20px); margin: 0px; vertical-align: middle;" value="" required>
+                </div>
+                <div style="display: inline-block; padding: 0.3em;">
+                  <label for="time2" class="fontColor" style="display: inline;"> по:</label>
+                  <input name="time2" type="time" id="time2" class="buttonSnabrequests formBase" style="width: 100px; max-width: calc(100% - 20px); margin: 0px; vertical-align: middle;" value="" required>
+                </div>
+                <input class="formBase" style="width: 120px; display: inline-block; margin: 0;" type="submit" value="Создать">
+              </form>
+            </div>
+
+
+
+
+
+            <div class="border-top" style="display: block; padding: 7px;" th:each="time : ${times}" align="center">
+
+              <div class="divSnabrequests" style="display: inline-block; padding-bottom: 0;">
+                <form class="" style="padding: 0; margin: 0;" th:action="@{/time/editTimes/} + ${time.getId()} + @{/edit}" method="post">
+                  <input type="text" name="employeeId" th:value="${employee.getId()}" hidden>
+                  <input type="text" name="dayDate" th:value="${dayDate}" hidden>
+
+                  <div style="display: inline-block; padding: 0.3em;">
+                    <label for="time1" class="fontColor" style="display: inline;">c:</label>
+                    <input name="time1" id="time1" type="time" class="buttonSnabrequests formBase" style="width: 100px; max-width: calc(100% - 20px); margin: 0px; vertical-align: middle;" th:value="${time.getStartTime()}" onChange="this.form.submit()" required>
+                  </div>
+                  <div style="display: inline-block; padding: 0.3em;">
+                    <label for="time2" class="fontColor" style="display: inline;"> по:</label>
+                    <input name="time2" type="time" id="time2" class="buttonSnabrequests formBase" style="width: 100px; max-width: calc(100% - 20px); margin: 0px; vertical-align: middle;" th:value="${time.getEndTime()}" onChange="this.form.submit()" required>
+                  </div>
+                  <div style="display: inline-block; padding: 0.3em;">
+                    <label for="time3" class="fontColor" style="display: inline;"> =</label>
+                    <input name="time3" type="text" id="time3" class="buttonSnabrequests formBase" style="width: 100px; max-width: calc(100% - 20px); margin: 0px; vertical-align: middle;" th:value="${time.getIntervalTime(true) + 'ч'}" readonly>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
+
+
+          <br>
+    </div>
+  </body>
+</html>

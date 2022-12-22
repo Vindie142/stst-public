@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title th:text="${'Прайс материалов ' + cityName}"></title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+
+      <br>
+      <div class="headerBlur regularBorder">
+        <p class="topDivForButton" style="margin: 0; padding: calc(10px + 0.4em);" align="center" th:text="${sectionName}"></p>
+      </div>
+
+      <br>
+      <form class="" style="padding: 0;" th:action="@{/price-list/mats/} + ${cityAbbr} + @{/new-price-mat}" method="get">
+        <input type="text" name="back" th:value="@{/price-list/mats/} + ${cityAbbr} + @{/sections/section/} + ${sectionId}" hidden>
+        <input type="text" name="section" th:value="${sectionId}" hidden>
+        <input class="topButton headerBlur regularBorder hov" style="height: 50px; cursor: pointer; text-decoration: underline;" type="submit" value="Добавить материал">
+      </form>
+      <br>
+
+      <div th:each="priceMat : ${priceMats}">
+
+            <div class="regularBlur regularBorder" th:style="${priceMat.isDeleted() == true ? 'background-color: rgba(165, 42, 42, 0.4);' : ''}">
+              <p class="topDivForButton border-bottom" style="margin: 0; padding: calc(10px + 0.4em);" align="center" th:utext="${priceMat.getName() + ' <u><b>[' + priceMat.getMeasurement().getName() + ']</b></u>' + ' <b> - </b><u><b>[' + priceMat.getBeautifulPrice() + ']</b></u>' }"></p>
+              <form class="" style="padding: 0;" th:action="@{/price-list/mats/} + ${cityAbbr} + @{/edit-price-mat/} + ${priceMat.getId()}" method="get">
+                <input type="text" name="back" th:value="@{/price-list/mats/} + ${cityAbbr} + @{/sections/section/} + ${sectionId}" hidden>
+                <input type="text" name="section" th:value="${sectionId}" hidden>
+                <input class="topButton regularBorder hov" style="height: 50px; cursor: pointer; text-decoration: underline;" type="submit" value="Изменить">
+              </form>
+            </div>
+          <br>
+      </div>
+
+    </div>
+  </body>
+</html>

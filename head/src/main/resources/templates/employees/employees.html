@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title>Сотрудники</title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+      
+      <a class="topButton hov" href="/employees/new-employee"><div class="topDivForButton headerBlur regularBorder" align="center">Создать сотрудника</div></a>
+      <br>
+
+      	<div th:each="employeeAndDepart : ${employeesAndDeparts}">
+          <div class="regularBorder" th:if="${employeeAndDepart.getValue().size() > 0}">
+      		  <h3 class="headerOfDiv headerBlur" th:text="${employeeAndDepart.getKey()}"></h3>
+              <div class="bodyOfDiv regularBlur">
+
+            	    <a th:each="employee : ${employeeAndDepart.getValue()}" class="hov" style="width: 370px; text-decoration: none;" th:href="@{/employees/edit-employee/} + ${employee.getId()}"><div style="width: 370px;">
+          	        <p th:text="${'[' + employee.getId()+'] '+ employee.getSurname()} +' '+ ${employee.getName()} +' '+ ${employee.getSecondName()}"></p>
+                    <p th:text="${employee.getPhone()}"></p>
+          	        <p th:text="${employee.getCity().getName()}"></p>
+          	      </div></a>
+
+              </div>
+          <br>
+          </div>
+
+          <br>
+        </div>
+
+
+
+    </div>
+  </body>
+</html>

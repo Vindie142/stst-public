@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+  <head>
+  	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  	<title th:text="${cityName}"></title>
+    <link href="/styles.css" rel="stylesheet">
+    <link type="image/png" sizes="192x192" rel="icon" href="/favicon-192x192.png">
+    <link type="image/png" sizes="16x16" rel="icon" href="/favicon-16x16.png">
+    <link type="image/png" sizes="32x32" rel="icon" href="/favicon-32x32.png">
+    <link type="image/png" sizes="96x96" rel="icon" href="/favicon-96x96.png">
+  </head>
+  <body>
+
+    <div th:insert="blocks/head :: ${head}"></div>
+    <div class="page" align="center">
+
+      <br>
+      <div class="headerBlur regularBorder">
+        <p class="topDivForButton border-bottom" style="margin: 0; padding: calc(10px + 0.4em);" align="center" th:text="${sectionName}"></p>
+        <p class="topDivForButton" style="margin: 0; padding: calc(10px + 0.4em);" align="center" th:text="${subsectionName}"></p>
+      </div>
+
+      <br>
+      <form class="" style="padding: 0;" th:action="@{/price-list/works/} + ${cityAbbr} + @{/new-price-work}" method="get">
+        <input type="text" name="back" th:value="@{/price-list/works/} + ${cityAbbr} + @{/sections/section/} + ${sectionId} + @{/subsection/} + ${subsectionId}" hidden>
+        <input type="text" name="section" th:value="${sectionId}" hidden>
+        <input type="text" name="subsection" th:value="${subsectionId}" hidden>
+        <input class="topButton headerBlur regularBorder hov" style="height: 50px; cursor: pointer; text-decoration: underline;" type="submit" value="Добавить вид работ">
+      </form>
+      <br>
+
+      <div th:each="priceWork : ${priceWorks}">
+
+            <div class="regularBlur regularBorder" th:style="${priceWork.isDeleted() == true ? 'background-color: rgba(165, 42, 42, 0.4);' : ''}">
+              <p class="topDivForButton border-bottom" style="margin: 0; padding: calc(10px + 0.4em);" align="center" th:utext="${priceWork.getName() + ' <u><b>[' + priceWork.getMeasurement().getName() + ']</b></u>' + ' <b> - </b><u><b>[' + priceWork.getBeautifulPrice() + ']</b></u>' }"></p>
+              <p class="topDivForButton border-bottom" th:style="${priceWork.getPriceMat().isDeleted() == true ? 'background-color: rgba(165, 42, 42, 0.4); margin: 0; padding: calc(10px + 0.4em);' : 'margin: 0; padding: calc(10px + 0.4em);'}" align="center" th:if="${priceWork.getPriceMat() != null}"
+                                      th:utext="${priceWork.getPriceMat().getName() + ' <u><b>[' + priceWork.getPriceMat().getMeasurement.getName() + ']</b></u>' + ' <b> - </b><u><b>[' + priceWork.getPriceMat().getBeautifulPrice() + ']</b></u>' }"></p>
+              <form class="" style="padding: 0;" th:action="@{/price-list/works/} + ${cityAbbr} + @{/edit-price-work/} + ${priceWork.getId()}" method="get">
+                <input type="text" name="back" th:value="@{/price-list/works/} + ${cityAbbr} + @{/sections/section/} + ${sectionId} + @{/subsection/} + ${subsectionId}" hidden>
+                <input type="text" name="section" th:value="${sectionId}" hidden>
+                <input class="topButton regularBorder hov" style="height: 50px; cursor: pointer; text-decoration: underline;" type="submit" th:value="${priceWork.getOrderNum() + ': Изменить'}">
+              </form>
+            </div>
+          <br>
+      </div>
+
+    </div>
+  </body>
+</html>
